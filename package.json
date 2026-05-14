@@ -1,0 +1,10 @@
+{
+  "name": "my-first-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "npx http-server -c-1 . -p 8080",
+    "api": "npx json-server --watch db.json --port 3000",
+    "dev": "npx concurrently \"npm run serve\" \"npm run api\""
+  }
+}
