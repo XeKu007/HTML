@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.css_card{
+    width: 150px;
+    height: 80px;
+    position: relative;
+    animation-name: css;
+    animation-duration: 4s;
+    margin: 30px;
+    border-radius: 10px;
+}
+@keyframes css{
+    0%{
+        background-color: red;
+        left: 0px;
+        top: 0px;
+    }
+    25%{
+        background-color: blue;
+        left: 0px;
+        top: 0px;
+        transform: rotate(25deg);
+    }
+    50%{
+        background-color: green;
+        left: 400px;
+        top: 0px;
+        transform: rotate(25deg);
+    }
+    75%{
+        background-color: yellow;
+        left: 0px;
+        top: 0px;
+        transform: rotate(-720deg);
+    }
+    100%{
+        background-color: red;
+        left: 0px;
+        top: 0px;
+        transform: rotate(-720deg);
+    }
+
+}

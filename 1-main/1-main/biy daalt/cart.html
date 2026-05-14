@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XaDe Ecommerce</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+    <link rel="icon" href="./img/TITLE.png">
+    
+</head>
+
+<body>
+    
+    <section id="header">
+        <a href="#"><img src="img/logo.png" class="logo" alt="" width="120px" height="50px"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lg-bag"><a class="active" href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>  
+
+    <section id="page-header" class="about-header">
+        <h2>#let's_talk</h2>
+        <p>LEAVE A MESSAGE, We love to hear from you!</p>
+    </section>
+
+    <section id="cart" class="section-p1">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Remove</td>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Subtotal</td>
+                </tr>
+            </thead>
+            <tbody id="cart-table"></tbody>
+        </table>
+    </section>
+
+
+    <section id="cart-add" class="section-p1">  
+        <div id="coupon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" id="coupon-code" placeholder="Enter Your Coupon">
+                <button id="apply-coupon">Apply</button>
+            </div>
+            <p id="coupon-message" style="margin-top: 10px; color: green;"></p>
+        </div>
+
+        <div id="subtotal">
+            <h3>Cart Totals</h3>
+            <table>
+                <tr>
+                    <td>Cart Subtotal</td>
+                    <td id="cart-subtotal">$335.57</td>
+                </tr>
+                <tr>
+                    <td>Discount</td>
+                    <td id="discount-amount">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td>Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong id="cart-total">$335.57</strong></td>
+                </tr> 
+            </table>
+            <input type="text" id="phone" class="normal1" placeholder="Enter your phonenumber">
+            <br><br>
+            <button class="normal" onclick="proceed()">Proceed to checkout</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="img/logo.png" alt="" width="120px" height="50px">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Baga toirog 46-1, Chingeltei - 4 horoo, Ulaanbaatar 14200 </p>
+            <p><strong>Phone:</strong> +976 85255466</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f" onclick="facebook()" style="cursor:pointer;"></i>
+                    <i class="fab fa-twitter" onclick="twitter()" style="cursor:pointer;"></i>
+                    <i class="fab fa-instagram" onclick="instagram()" style="cursor:pointer;"></i>
+                    <i class="fab fa-pinterest-p" onclick="pinterest()" style="cursor:pointer;"></i>
+                    <i class="fab fa-youtube" onclick="youtube()" style="cursor:pointer;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="#" onclick="about()" style="cursor:pointer;">About us</a>
+            <a href="#" onclick="cart()" style="cursor:pointer;">Delivery Information</a>
+            <a href="#" onclick="about()" style="cursor:pointer;">Privacy Policy</a>
+            <a href="#" onclick="shop()" style="cursor:pointer;">Terms & Conditions</a>
+            <a href="#" onclick="contact()" style="cursor:pointer;">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="index.html#newsteller" style="cursor:pointer;" onclick="signup()">Sign up</a>
+            <a href="#" onclick="cart()" style="cursor:pointer;">View Cart</a>
+            <a href="#" onclick="cart()" style="cursor:pointer;">My Wishlist</a>
+            <a href="#" onclick="cart()" style="cursor:pointer;">Track My Order</a>
+            <a href="#" onclick="blog()" style="cursor:pointer;">Help</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="img/pay/app.jpg" alt="" onclick="appstore()" style="cursor:pointer;">
+                <img src="img/pay/play.jpg" alt="" onclick="googleplay()" style="cursor:pointer;">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="img/pay/pay.png" alt="" onclick="payment()" style="cursor:pointer;">
+        </div>
+        <div class="copyright">
+            <p>© 2025, XaDe etc -Ecommerce</p>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      renderCart();
+      const applyBtn = document.getElementById('apply-coupon');
+      if (applyBtn) applyBtn.addEventListener('click', applyCoupon);
+    });
+    </script>
+</body>
+
+</html>

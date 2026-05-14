@@ -1,0 +1,422 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#main{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+.nomer1{
+    width: 100%;
+    height:50px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
+    top: 0;
+}
+.nomer1 .text0{
+    font-size: 13px;
+    font: bold;
+    display: flex;
+    justify-content: center;
+    font-family: "Work Sans", sans-serif;
+    margin-right: 25px;
+    gap: 18px;
+    color: gray;
+}
+.bookdemo{
+    width: 100px;
+    height: 28px;
+    background-color: black;
+    border-radius: 4px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 22px;
+    font-family: "Work Sans", sans-serif;
+    font-size: 13px;
+}
+img{
+    width: 35px;
+    height: 35px;
+    margin-right: 54%;
+}
+.nomer2{
+    width: 100%;
+    height: 36px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: lightgray;
+    gap: 15px;
+    font-size: 13px;
+    font-family: "Work Sans", sans-serif;
+}
+.nomer2 span{
+    color: white;
+    font-family: "Work Sans", sans-serif;
+}
+.text{
+    font-size: 140px;
+    margin-top: 40px;
+    margin-left: 20px;
+    font-family: "Work Sans", sans-serif;
+    line-height: 150px;
+}
+.text span{
+    margin-left: 495px;
+}
+video{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 140px;
+}
+.videotext{
+    font-size: 16px;
+    width: 40%;
+    margin: 20px;
+}
+.bookdemo2{
+    width: 128px;
+    height: 40px;
+    background-color: black;
+    border-radius: 4px;
+    color: white;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img2{
+    width: 98%;
+    height: 50px;
+    margin: 10px;
+    margin-top: 40px;
+}
+.shorttext{
+    font-size: 15px;
+    margin: 20px;
+    font-family: "Work Sans", sans-serif;
+    margin-top: 90px;
+}
+
+.longtext{
+    font-size: 40px;
+    margin: 20px;
+    width: 55%;
+    font-family: "Cormorant Garamond", serif;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-top: 0;
+}
+.husnegt3{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: -50px;
+    gap: 30px;    
+}
+.husnegt3 .neg,.husnegt3 .hoyr,.husnegt3 .guraw{
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.husnegt3 .hoyr{
+    align-items: center;
+}
+.husnegt3 .guraw{
+    align-items: flex-end;
+}
+.video2,.video3,.video4 {
+    width: 100%;
+}
+.ug,.ug2,.ug3 {
+    margin: 20px;
+    margin-top: 15px;
+    font-size: 14px;
+    color: black;
+    opacity: 70%;
+}
+.ug span,.ug2 span,.ug3 span {
+    font-weight: bold;
+    color: black;
+    opacity: 100%;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
+}
+.husnegt4{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    margin-top: 150px;
+}
+.husnegt4 .ehen{
+    flex: 1 1 280px;
+    opacity: 85%;
+    font-size: 12px;
+    margin-left: 30px;
+    white-space: pre-line;
+}
+.husnegt4 .suul{
+    font-size: 64px;
+    text-align: right;
+    flex: 1 1 500px;
+    white-space: pre-line;
+}
+.husnegt5{
+    display: flex;
+    gap: 20px;
+    margin-top: 150px;
+}
+.husnegt5 .title {
+  width: 360px;
+  height: 500px;
+}
+.husnegt5 p {
+  margin-top: 10px;
+  font-size: 15px;
+  color: black;
+  opacity: 70%;
+}
+.husnegt5 span {
+  font-weight: bold;   
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.husnegt6{
+  background-color: #EBF5ED;
+  display: flex;
+  flex-direction: row;
+  height: 1200px;
+  width: 100%;
+  font-family: "Work Sans", sans-serif;
+  margin-top: 200px;
+  line-height: 1.3em;
+}
+.ehniihusnegt{
+  width: 40%;
+  height: 60%;
+}
+.garchig{
+  font-size: 40px;
+  margin-top: 150px;
+  margin-left: 20px;
+  letter-spacing: -4px;
+  font-weight: 330;
+}
+.zahiral{
+  width: 265px;
+  height: 360px;
+  margin-left: 20px;
+  margin-top: 190px;
+}
+.ner{
+  margin-left: 20px;
+  font-size: 14px;
+  color: black;
+}
+.tushaal{
+  margin-left: 20px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #6b6b6b;
+  line-height: 0;
+}
+.hoyrhusnegt{
+  width: 48%;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 145px;
+  margin-top: 150px;
+  font-family: "Cormorant Garamond", serif;
+  line-height: 1.3;
+  color: black;
+  font-weight: 600;
+}
+.ehnii_paragraph{
+  flex-direction: column;
+}
+.ugs{
+  display: flex;
+  flex-direction: row;
+}
+.office{
+  width: 100%;
+  height: 60%;
+  margin-top: 70px;
+}
+.husnegt7{
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 850px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.husnegt7 span{
+  font-size: 13px;
+  font-family: "Work Sans", sans-serif;
+  margin-left: 45%;
+  margin-top: 1%;
+}
+.husnegt7 .p{
+  white-space: pre-line;
+  font-size: 35px;
+  font-family: "Cormorant Garamond", serif;
+  margin-left: 25%;
+  margin-top: -20%;
+  font-weight: bold;
+}
+.negdel{
+  display: flex;
+  flex-direction: row;
+  margin: 30px;
+}
+.negt,.hoyrt,.gurawt,.dorowt{
+  width: 25%;
+  border: 1px solid rgb(61, 61, 61);
+  color: #6b6b6b;
+  height: 350px;
+  padding: 20px;
+  display: grid;
+  margin-top: -15%;
+}
+.negdel p{
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+}
+.negdel img{
+  width: 60px;
+  height: 60px;
+  margin-top: 120px;
+}
+.husnegt8{
+  width: 100%;
+  height: 900px;
+  display: flex;
+  flex-direction: row;
+  background-color: #e1d5b6;
+}
+.video8{
+  width: 90%;
+  height: 80%;
+}
+.video8 video{
+  width: 90%;
+  height: 80%;
+  margin-left: 7%;
+  margin-top: 13%;
+}
+.video8 .text8_4{
+  font-size: 16px;
+  margin-left: 7%;
+  width: 55%;
+  margin-top: 20px;
+}
+.text8{
+  display: flex;
+  width: 30%;
+  margin-top: 9%;
+  margin-left: 20px;
+  flex-direction: column;
+}
+.text8_1_1{
+  font-weight: bold;
+  font-size: 60px;
+}
+.text8_1{
+  font-family: "Cormorant Garamond", serif;
+  font-size: 38px;
+  color: black;
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 32px;
+}
+.text8_2{
+  font-family: "Work Sans", sans-serif;
+  font-size: 15px;
+  margin-top: 20px;
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+.text8_3{
+  color: #6b6b6b;
+  font-size: 15px;
+}
+
+
+.husnegt9{
+  width: 100%;
+  height: 400px;
+  background-color: black;
+}
+.suuliinh{
+  font-size: 35px;
+  font-family: "Cormorant Garamond", serif;
+  color: #6b6b6b;
+  white-space: pre-line;
+  margin-left: 23px;
+  margin-top: -20px;
+  line-height: 35px;
+  font-weight: 600;
+  letter-spacing: -2px;
+}
+.span{
+  color: white;
+}
+.book_demo{
+    width: 128px;
+    height: 40px;
+    background-color: white;
+    border-radius: 4px;
+    color: black;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Work Sans", sans-serif;
+    margin-top: 200px;
+}
+
+
+
+
+.ygSuuliinh{
+  width: 100%;
+  height: 200px;
+
+}
+.text9{
+  display: flex;
+  gap: 100px;
+  margin-left: 500px;
+  line-height: 30px;
+  margin-top: -70px;
+}
+
+.text9 .tittle{
+  white-space: pre-line;
+}
+
+.logot{
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.lasttext{
+  font-size: 260px;
+  margin-left: 500px;
+}

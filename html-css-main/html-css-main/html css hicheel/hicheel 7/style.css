@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.text {
+    color: black;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+}
+.main {
+    width: 400px;
+    height: 400px;
+    background-color: rgb(213, 204, 39); 
+    border: 5px inset black;
+    border-radius: 35px;
+    line-height: 25px;
+    letter-spacing: 4px;
+    align-items: center;
+    text-align: center;
+    margin-left: 35%;
+}
+.main .main_text {
+    margin-top: 20%;
+    padding: 15px;
+    text-shadow: 2px 2px 7px black;
+
+}

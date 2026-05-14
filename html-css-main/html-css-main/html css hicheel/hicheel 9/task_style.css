@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "poppins", sans-serif;
+    position: relative;
+}
+
+body{
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+.button{
+    font-weight: 500;
+    border-radius: 2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    transition: 0.2s ease;
+}
+.button_gradient{
+    position: absolute;
+    background: linear-gradient(
+        20deg, 
+        rgb(241, 76,202)0%, 
+        rgb(70,91,245)100%);
+    z-index: -1;
+    border-radius: 2em;
+    box-shadow: -5px 0 15px rgb(241, 76,202), 5px 0 15px rgb(241, 76,202);
+    transform: translateY(10px);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+}
+.button:hover{
+    box-shadow: -5px 0 15px rgb(241, 76,202), 5px 0 15px rgb(241, 76,202);
+    transform: translateY(10px);
+}

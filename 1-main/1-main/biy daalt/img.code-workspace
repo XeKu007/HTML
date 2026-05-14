@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "img",
+			"path": "../../../Downloads/Build-and-Deploy-Ecommerce-Website-main/Build-and-Deploy-Ecommerce-Website-main/img"
+		},
+		{
+			"name": "My_first_website",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "My_first_website",
+		"powershell.cwd": "My_first_website"
+	}
+}

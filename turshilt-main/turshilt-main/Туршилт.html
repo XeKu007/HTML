@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMAI — Нийгмийн Сүлжээний Хамаарлын Тест</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #ff3c6f;
+    --accent2: #7c3aed;
+    --accent3: #06b6d4;
+    --text: #e8e8f0;
+    --muted: #666680;
+    --glow: rgba(255, 60, 111, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(124,58,237,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 80% 80%, rgba(255,60,111,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container { width: 100%; max-width: 720px; position: relative; }
+
+  /* ── PAGE SECTIONS ── */
+  .page { display: none; animation: fadeIn 0.5s ease; }
+  .page.active { display: block; }
+
+  /* ── INTRO ── */
+  #page-intro { text-align: center; }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 7vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  h1 span {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+    max-width: 440px;
+    margin: 0 auto 20px;
+  }
+
+  /* user info form */
+  .user-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin: 24px auto;
+    max-width: 420px;
+    text-align: left;
+  }
+
+  .user-form h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    margin-bottom: 16px;
+    color: var(--accent3);
+    letter-spacing: 0.05em;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-group label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input, .form-group select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--accent2);
+  }
+
+  .form-group select option { background: var(--surface); }
+
+  .start-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    margin-top: 8px;
+  }
+
+  .start-btn:hover {
+    background: #ff1a55;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255,60,111,0.4);
+  }
+
+  .start-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .meta-info {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 20px;
+  }
+
+  .meta-item { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+  .meta-item span { color: var(--accent3); }
+
+  /* ── QUIZ ── */
+  .progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .q-counter { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; white-space: nowrap; }
+
+  .category-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+
+  .question-text {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(18px, 3.5vw, 22px);
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+
+  .option {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    opacity: 0;
+    transition: opacity 0.18s;
+  }
+
+  .option:hover { border-color: var(--accent2); transform: translateX(4px); }
+  .option:hover::before { opacity: 0.06; }
+
+  .option.selected {
+    border-color: var(--accent);
+    background: rgba(255,60,111,0.08);
+  }
+
+  .option-letter {
+    width: 26px; height: 26px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--muted);
+    flex-shrink: 0; border-radius: 3px;
+    transition: all 0.18s;
+    position: relative; z-index: 1;
+  }
+
+  .option.selected .option-letter { background: var(--accent); border-color: var(--accent); color: white; }
+
+  .option-text { font-size: 13px; line-height: 1.5; color: var(--text); position: relative; z-index: 1; }
+  .option-score { margin-left: auto; font-size: 11px; color: var(--muted); position: relative; z-index: 1; }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 10px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.18s;
+    border-radius: 3px;
+  }
+
+  .nav-btn:hover:not(:disabled) { border-color: var(--text); color: var(--text); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .next-btn { background: var(--accent); border-color: var(--accent); color: white; font-weight: 500; }
+  .next-btn:hover:not(:disabled) { background: #ff1a55; border-color: #ff1a55; transform: translateY(-1px); }
+
+  /* ── AI ANALYSIS LOADING ── */
+  #page-loading { text-align: center; padding: 60px 0; }
+
+  .loading-spinner {
+    width: 64px; height: 64px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .loading-sub { color: var(--muted); font-size: 12px; }
+
+  .loading-dots span {
+    animation: blink 1.2s infinite;
+    font-size: 20px;
+    color: var(--accent);
+  }
+
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+
+  /* ── RESULT ── */
+  #result { animation: fadeIn 0.6s ease; }
+
+  .result-header { text-align: center; margin-bottom: 36px; }
+
+  .score-ring {
+    width: 130px; height: 130px;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring .ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+  .score-ring .ring-fill {
+    fill: none; stroke-width: 8; stroke-linecap: round;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .score-number {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  .score-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; line-height: 1; }
+  .score-max { font-size: 11px; color: var(--muted); }
+
+  .result-level { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
+  .result-desc { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto; }
+
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+
+  .result-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 16px; border-radius: 6px;
+  }
+
+  .result-card-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .result-card-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+
+  .dimension-bars {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 20px; margin-bottom: 24px;
+  }
+
+  .dim-title { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+
+  .dim-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .dim-label { font-size: 12px; color: var(--text); width: 130px; flex-shrink: 0; }
+  .dim-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .dim-fill { height: 100%; border-radius: 3px; width: 0; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+  .dim-pct { font-size: 11px; color: var(--muted); width: 32px; text-align: right; }
+
+  /* AI Analysis card */
+  .ai-analysis-card {
+    background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(255,60,111,0.05));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .ai-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-label::before {
+    content: '✦';
+    color: var(--accent);
+    font-size: 12px;
+  }
+
+  .ai-text {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+
+  .recommendations {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 20px; margin-bottom: 24px;
+  }
+
+  .rec-title { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+
+  .rec-item {
+    display: flex; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; line-height: 1.5; color: var(--text);
+  }
+
+  .rec-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .rec-icon { color: var(--accent3); flex-shrink: 0; margin-top: 1px; }
+
+  .restart-btn {
+    width: 100%;
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); padding: 14px;
+    font-family: 'DM Mono', monospace; font-size: 13px;
+    cursor: pointer; transition: all 0.18s;
+    border-radius: 4px; letter-spacing: 0.05em;
+  }
+
+  .restart-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── ADMIN ── */
+  #page-admin { max-width: 100%; }
+
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .admin-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  .admin-title span { color: var(--accent); }
+
+  .admin-back {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.18s;
+  }
+
+  .admin-back:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  .admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--accent3); }
+  .stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+  .admin-table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .admin-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .admin-table-title { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+
+  .filter-btn.active, .filter-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  thead th {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.01);
+  }
+
+  tbody tr {
+    transition: background 0.15s;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+    cursor: pointer;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  tbody td {
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .level-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-minimal { background: rgba(34,197,94,0.12); color: #22c55e; }
+  .badge-mild    { background: rgba(132,204,22,0.12); color: #84cc16; }
+  .badge-moderate { background: rgba(234,179,8,0.12); color: #eab308; }
+  .badge-high    { background: rgba(249,115,22,0.12); color: #f97316; }
+  .badge-severe  { background: rgba(239,68,68,0.12); color: #ef4444; }
+
+  /* Detail modal */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border-radius: 3px; font-size: 14px;
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .modal-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .modal-meta { font-size: 11px; color: var(--muted); margin-bottom: 20px; }
+
+  .modal-dims { margin-bottom: 16px; }
+  .modal-ai {
+    background: rgba(124,58,237,0.06);
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+
+  /* Level colors */
+  .level-minimal { color: #22c55e; }
+  .level-mild { color: #84cc16; }
+  .level-moderate { color: #eab308; }
+  .level-high { color: #f97316; }
+  .level-severe { color: #ef4444; }
+
+  /* Admin login */
+  #page-admin-login { text-align: center; }
+
+  .login-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 36px;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .login-card h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .login-card p { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
+
+  .login-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; text-align: left; }
+  .login-field label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .login-field input {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 10px 14px;
+    font-family: 'DM Mono', monospace; font-size: 13px;
+    border-radius: 4px; outline: none; transition: border-color 0.2s;
+  }
+  .login-field input:focus { border-color: var(--accent2); }
+
+  .login-btn {
+    width: 100%;
+    background: var(--accent2); color: white; border: none;
+    padding: 12px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; border-radius: 4px; transition: all 0.2s; margin-top: 4px;
+  }
+
+  .login-btn:hover { background: #6d28d9; transform: translateY(-1px); }
+
+  .login-error { color: var(--accent); font-size: 12px; margin-top: 10px; display: none; }
+
+  /* admin trigger link */
+  .admin-link {
+    position: fixed; bottom: 16px; right: 16px;
+    font-size: 10px; color: var(--border); cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+    user-select: none;
+  }
+
+  .admin-link:hover { color: var(--muted); }
+
+  /* empty state */
+  .empty-state { text-align: center; padding: 48px; color: var(--muted); font-size: 13px; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-anim { animation: fadeIn 0.35s ease; }
+
+  @media (max-width: 540px) {
+    .form-row { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: 1fr; }
+    .admin-stats { grid-template-columns: 1fr 1fr; }
+    table { font-size: 11px; }
+    thead th, tbody td { padding: 10px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ══ INTRO ══ -->
+  <div id="page-intro" class="page active">
+    <div class="badge">Сэтгэл зүйн үнэлгээ • SMAI</div>
+    <h1>Цахим сүлжээний донтолтын<br><span>тест</span></h1>
+    <p class="subtitle">
+      Нийгмийн сүлжээний хамаарлыг 6 сэтгэл зүйн хэмжигдэхүүнээр хэмжих шинжлэх ухааны үндэстэй тест. 20 асуулт. ~4 минут.
+    </p>
+
+    <div class="user-form">
+      <h3>Таны мэдээлэл</h3>
+      <div class="form-row">
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+          <label>Нас *</label>
+          <input type="number" id="uAge" placeholder="20" min="18" max="21" oninput="checkForm()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Хүйс</label>
+          <select id="uGender" onchange="checkForm()">
+            <option value="">— сонгох —</option>
+            <option>Эрэгтэй</option>
+            <option>Эмэгтэй</option>
+            <option>Бусад</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Нийгмийн сүлжээ</label>
+          <select id="uPlatform" onchange="checkForm()">
+            <option value="">— сонгох —</option>
+            <option>Instagram</option>
+            <option>TikTok</option>
+            <option>Facebook</option>
+            <option>Twitter / X</option>
+            <option>YouTube</option>
+            <option>Олон платформ</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button class="start-btn" id="startBtn" onclick="startQuiz()" disabled>Эхлэх →</button>
+    <div class="meta-info">
+      <div class="meta-item"><span>20</span> асуулт</div>
+      <div class="meta-item"><span>6</span> хэмжигдэхүүн</div>
+      <div class="meta-item"><span>Bergen</span> суурилсан</div>
+    </div>
+  </div>
+
+  <!-- ══ QUIZ ══ -->
+  <div id="page-quiz" class="page">
+    <div class="progress-bar-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="q-counter" id="qCounter">01 / 20</div>
+    </div>
+    <div id="questionArea" class="q-anim"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn" onclick="prevQuestion()" disabled>← Өмнөх</button>
+      <button class="nav-btn next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Дараах →</button>
+    </div>
+  </div>
+
+  <!-- ══ AI LOADING ══ -->
+  <div id="page-loading" class="page">
+    <div class="loading-spinner"></div>
+    <div class="loading-title">AI шинжилгээ хийж байна</div>
+    <p class="loading-sub">Таны хариултыг Claude AI задлан шинжилж байна<br>
+    <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
+  </div>
+
+  <!-- ══ RESULT ══ -->
+  <div id="result" class="page"></div>
+
+  <!-- ══ ADMIN LOGIN ══ -->
+  <div id="page-admin-login" class="page">
+    <div class="login-card">
+      <h2>Админ нэвтрэх</h2>
+      <p>Судалгааны үр дүнг харах хэсэг</p>
+      <div class="login-field">
+        <label>Нэвтрэх нэр</label>
+        <input type="text" id="adminUser" placeholder="admin">
+      </div>
+      <div class="login-field">
+        <label>Нууц үг</label>
+        <input type="password" id="adminPass" placeholder="••••••" onkeydown="if(event.key==='Enter')adminLogin()">
+      </div>
+      <button class="login-btn" onclick="adminLogin()">Нэвтрэх</button>
+      <div class="login-error" id="loginError">Нэвтрэх нэр эсвэл нууц үг буруу байна</div>
+      <div style="margin-top:16px">
+        <button class="admin-back" onclick="showPage('page-intro')">← Буцах</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADMIN DASHBOARD ══ -->
+  <div id="page-admin" class="page" style="max-width:900px;margin:0 auto;">
+    <div class="admin-header">
+      <div class="admin-title">Админ <span>Хяналтын самбар</span></div>
+      <div style="display:flex;gap:8px;">
+        <button class="admin-back" onclick="exportCSV()">↓ CSV татах</button>
+        <button class="admin-back" onclick="showPage('page-intro')">← Гарах</button>
+      </div>
+    </div>
+
+    <div class="admin-stats" id="adminStats"></div>
+
+    <div class="admin-table-wrap">
+      <div class="admin-table-header">
+        <div class="admin-table-title">Бүх хэрэглэгчдийн үр дүн</div>
+        <div style="font-size:11px;color:var(--muted)" id="totalCount"></div>
+      </div>
+      <div class="filter-row" id="filterRow"></div>
+      <div style="overflow-x:auto;">
+        <table id="adminTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Нас</th>
+              <th>Хүйс</th>
+              <th>Платформ</th>
+              <th>Оноо</th>
+              <th>Түвшин</th>
+              <th>Огноо</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="detailModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- Admin trigger -->
+<div class="admin-link" onclick="showPage('page-admin-login')" title="Админ">⚙ admin</div>
+
+<script>
+// ════════════════════════════════════
+//  DATA STORE (localStorage)
+// ════════════════════════════════════
+const STORE_KEY = 'smai_results_v1';
+
+function loadResults() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveResult(entry) {
+  const all = loadResults();
+  all.push(entry);
+  localStorage.setItem(STORE_KEY, JSON.stringify(all));
+}
+
+// ════════════════════════════════════
+//  QUESTIONS
+// ════════════════════════════════════
+const questions = [
+  { cat:"Salience",          text:"Нийгмийн сүлжээний талаар тогтмол бодсоор байдаг уу? — хэзээ хэрэглэх, юу байршуулах, яриа яаж явж байна гэж?", dim:0 },
+  { cat:"Salience",          text:"Цахим сүлжээнд эргэлзэлгүй, автоматаар нээдэг үү? — өөрийнхөө хийсэн зүйлийг ойлгохоосоо өмнө?", dim:0 },
+  { cat:"Salience",          text:"Цахим сүлжээ таны сэтгэлийн байдал, өдрийн хэлбэрийг тодорхойлдог уу?", dim:0 },
+  { cat:"Mood Modification", text:"Сэтгэл гутарсан, уйдсан, стресстэй үед нийгмийн сүлжээнд орох замаар сэтгэлийн байдлаа өөрчлөхийг хичээдэг үү?", dim:1 },
+  { cat:"Mood Modification", text:"Сайн тэмдэглэл авсан, мессеж ирсэн нь таны өдрийг илүү сайн болгодог уу?", dim:1 },
+  { cat:"Mood Modification", text:"Цахим сүлжээг хаахаар шийдэхэд сэтгэлийн байдлаа хянах хэцүү байдаг уу?", dim:1 },
+  { cat:"Tolerance",         text:"Яг өмнөх шигээ сэтгэл ханахын тулд нийгмийн сүлжээнд улам их цаг зарцуулах шаардлагатай болж байна уу?", dim:2 },
+  { cat:"Tolerance",         text:"Хэрэглээгээ тодорхой хязгаарт байлгахыг оролдсон боловч дахин нэмэгдсэн үү?", dim:2 },
+  { cat:"Tolerance",         text:"Цахим сүлжээнд өнгөрөөх цагийн хэмжээ жил ирэх тусам нэмэгдсэн мэт санагддаг уу?", dim:2 },
+  { cat:"Withdrawal",        text:"Цахим сүлжээг ашиглах боломжгүй болоход сандарч, цочромтгой, уйтгартай болдог уу?", dim:3 },
+  { cat:"Withdrawal",        text:"Хэрэглэхгүй үедээ алдаж буй мэт санагддаг, эсвэл 'FOMO' мэдэрдэг үү?", dim:3 },
+  { cat:"Withdrawal",        text:"Утасгүйгаар унтах нь тайван бус, санаа зовж байхад хүргэдэг үү?", dim:3 },
+  { cat:"Conflict",          text:"Цахим сүлжээний хэрэглээ нь ажил, сургалт, бүтээмжид сөргөөр нөлөөлсөн үү?", dim:4 },
+  { cat:"Conflict",          text:"Цахим сүлжээг хэрэглэсний улмаас гэр бүл, найз нөхөдтэйгөө зөрчилдсөн удаа байсан уу?", dim:4 },
+  { cat:"Conflict",          text:"Хүмүүстэй биечлэн уулзаж байхдаа нийгмийн сүлжээг шалгаад, уулзалт тасалдсан уу?", dim:4 },
+  { cat:"Relapse",           text:"Хэрэглээгээ багасгах, зогсоохыг оролдсон ч амжилтгүй болсон удаа байсан уу?", dim:5 },
+  { cat:"Relapse",           text:"Цахим сүлжээнд завсарлагаа дуусаад буцаж ормогц хэрэглээ нь улам нэмэгддэг үү?", dim:5 },
+  { cat:"Relapse",           text:"Хязгаарлахаа мэддэг ч биечлэн хийж чадахгүй байна уу?", dim:5 },
+  { cat:"General",           text:"Нийт өдрийн хэрэглэлийг тооцоолбол өдөрт дунджаар хэд цаг нийгмийн сүлжээнд зарцуулдаг вэ?", dim:0, special:"time" },
+  { cat:"General",           text:"Цахим сүлжээний хэрэглээ нь таны амьдралын чанарт ямар нөлөөтэй гэж боддог вэ?", dim:1, special:"impact" },
+];
+
+const optionSets = [
+  ...Array(18).fill(["Огт үгүй","Хааяа","Заримдаа","Ихэнхдээ","Үргэлж"]),
+  ["1 цагаас бага","1–2 цаг","2–4 цаг","4–6 цаг","6+ цаг"],
+  ["Маш эерэг","Эерэг","Төвийг сахисан","Сөрөг","Маш сөрөг"],
+];
+
+const letters = ['A','B','C','D','E'];
+const dims     = ["Ач холбогдол","Сэтгэл зүйн өөрчлөлт","Тэвчих үл мэдрэх","Татгалзах шинж тэмдэг","Зөрчил","Давтан орох"];
+const dimColors= ["#7c3aed","#06b6d4","#f59e0b","#ef4444","#ec4899","#8b5cf6"];
+
+let current = 0;
+let answers = new Array(20).fill(-1);
+let userInfo = {};
+
+// ════════════════════════════════════
+//  PAGE NAV
+// ════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ════════════════════════════════════
+//  FORM CHECK
+// ════════════════════════════════════
+function checkForm() {
+  const age  = parseInt(document.getElementById('uAge').value);
+  document.getElementById('startBtn').disabled = !(age >= 18 && age <= 21);
+}
+
+// ════════════════════════════════════
+//  QUIZ
+// ════════════════════════════════════
+function startQuiz() {
+  userInfo = {
+    age:      document.getElementById('uAge').value,
+    gender:   document.getElementById('uGender').value || 'Тодорхойгүй',
+    platform: document.getElementById('uPlatform').value || 'Тодорхойгүй',
+  };
+  current = 0;
+  answers = new Array(20).fill(-1);
+  showPage('page-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q    = questions[current];
+  const opts = optionSets[current];
+  const area = document.getElementById('questionArea');
+  area.className = 'q-anim';
+  void area.offsetWidth;
+
+  let html = `
+    <div class="category-tag">${q.cat}</div>
+    <div class="question-text">${q.text}</div>
+    <div class="options">
+  `;
+  opts.forEach((opt, i) => {
+    const sel = answers[current] === i ? 'selected' : '';
+    html += `
+      <div class="option ${sel}" onclick="selectOption(${i})">
+        <div class="option-letter">${letters[i]}</div>
+        <div class="option-text">${opt}</div>
+        <div class="option-score">${i+1}pt</div>
+      </div>`;
+  });
+  html += '</div>';
+  area.innerHTML = html;
+
+  const pct = (current / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qCounter').textContent =
+    String(current+1).padStart(2,'0') + ' / ' + questions.length;
+
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = answers[current] === -1;
+  document.getElementById('nextBtn').textContent =
+    current === questions.length - 1 ? 'Үр дүн харах →' : 'Дараах →';
+}
+
+function selectOption(i) {
+  answers[current] = i;
+  renderQuestion();
+}
+
+function nextQuestion() {
+  if (answers[current] === -1) return;
+  if (current === questions.length - 1) {
+    analyzeWithAI();
+    return;
+  }
+  current++;
+  renderQuestion();
+}
+
+function prevQuestion() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+// ════════════════════════════════════
+//  SCORE CALC
+// ════════════════════════════════════
+function calcScores() {
+  const total = answers.reduce((s,v) => s + (v+1), 0);
+  const maxScore = questions.length * 5;
+  const pct = Math.round((total / maxScore) * 100);
+
+  const dimScores = [0,0,0,0,0,0];
+  const dimCounts = [0,0,0,0,0,0];
+  questions.forEach((q, i) => {
+    dimScores[q.dim] += answers[i] + 1;
+    dimCounts[q.dim]++;
+  });
+  const dimPcts = dimScores.map((s,i) => Math.round((s / (dimCounts[i]*5)) * 100));
+
+  let level, levelClass;
+  if      (pct <= 25) { level="Хэвийн хэрэглэгч";          levelClass="minimal"; }
+  else if (pct <= 45) { level="Хөнгөн хамаарал";            levelClass="mild"; }
+  else if (pct <= 60) { level="Дунд зэргийн хамаарал";      levelClass="moderate"; }
+  else if (pct <= 78) { level="Хүчтэй хамаарал";            levelClass="high"; }
+  else                { level="Хүнд хэлбэрийн хамаарал";   levelClass="severe"; }
+
+  return { total, maxScore, pct, dimPcts, level, levelClass };
+}
+
+// ════════════════════════════════════
+//  AI ANALYSIS via Anthropic API
+// ════════════════════════════════════
+async function analyzeWithAI() {
+  showPage('page-loading');
+
+  const scores = calcScores();
+
+  const prompt = `Та нийгмийн сүлжээний хамаарлын тестийн үр дүнг дүн шинжилгээ хийж байна.
+
+Хэрэглэгчийн мэдээлэл:
+- Нас: ${userInfo.age}
+- Хүйс: ${userInfo.gender}
+- Гол платформ: ${userInfo.platform}
+
+Тестийн үр дүн:
+- Нийт оноо: ${scores.pct}% (${scores.total}/${scores.maxScore})
+- Хамаарлын түвшин: ${scores.level}
+
+6 хэмжигдэхүүний оноо:
+${dims.map((d,i) => `  ${d}: ${scores.dimPcts[i]}%`).join('\n')}
+
+Дараах зүйлийг 3-4 өгүүлбэрт Монгол хэлээр бичнэ үү:
+1. Энэ хэрэглэгчийн хамгийн онцлог хэв маяг юу вэ
+2. Хамгийн анхаарал хандуулах ёстой хэмжигдэхүүн аль нь вэ, яагаад
+3. Нэг тодорхой практик зөвлөмж (тухайн нас, платформд тохируулсан)
+
+Хариулт нь дулаахан, мэргэжлийн, хэтэрхий техникийн бус байх ёстой.`;
+
+  let aiText = '';
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await response.json();
+    aiText = data.content?.find(b => b.type === 'text')?.text || '';
+  } catch(e) {
+    aiText = 'AI шинжилгээ одоогоор боломжгүй байна. Доорх үр дүн таны хариултад тулгуурласан болно.';
+  }
+
+  const entry = {
+    id:       Date.now(),
+    date:     new Date().toISOString(),
+    ...userInfo,
+    ...scores,
+    aiText,
+    answers: [...answers],
+  };
+  saveResult(entry);
+  showResult(entry);
+}
+
+// ════════════════════════════════════
+//  SHOW RESULT
+// ════════════════════════════════════
+function showResult(entry) {
+  const { pct, total, maxScore, dimPcts, level, levelClass, aiText } = entry;
+
+  showPage('result');
+
+  const descs = {
+    minimal:  "Нийгмийн сүлжээний хэрэглээ таны амьдралд тэнцвэртэй, эрүүл байдлаар оршиж байна.",
+    mild:     "Зарим чиглэлд нийгмийн сүлжээнд хэт анхаарал хандуулах хандлага ажиглагдаж байна.",
+    moderate: "Нийгмийн сүлжээ таны өдрийн байдал, харилцааг мэдэгдэхүйц тодорхойлж байна.",
+    high:     "Нийгмийн сүлжээний хэрэглээ таны ажил, харилцаа, эрүүл мэндэд тодорхой хохирол учруулж байна.",
+    severe:   "Нийгмийн сүлжээний хэрэглээ таны амьдралын олон талд ноцтой нөлөөлж байна.",
+  };
+
+  const recs = {
+    minimal:  ["Одоогийн тэнцвэрийг хадгалаарай","Оффлайн үйл ажиллагааг үргэлжлүүлэарай","Шаардлагатай үед дижитал детокс хийж болно"],
+    mild:     ["Утасгүй цаг тогтмол гаргаарай","Мэдэгдлийг хязгаарлаарай","Идэвхтэй хэрэглэлийг идэвхгүй гүйлгэлттэй ялгаарай"],
+    moderate: ["Өдөр тутмын хэрэглэлийн хязгаар тогтоо","Нийгмийн сүлжээгүй цагаа нэмэгдүүл","Байршилд суурилсан хориог ашигла"],
+    high:     ["Мэргэжлийн дэмжлэг авахыг зөвлөж байна","Хэрэглэлийн хязгаарлагч аппликейшн суулга","Биеийн тамирын дасгал нэмэгдүүл"],
+    severe:   ["Нэн даруй мэргэжлийн тусламж хайгаарай","Дижитал детокс программд бүртгүүлэх боломжийг авч үзэ","CBT, Mindfulness арга судлах"],
+  };
+
+  const circumference = 2 * Math.PI * 52;
+  const offset = circumference - (pct / 100) * circumference;
+
+  const dimBars = dimPcts.map((p,i) => `
+    <div class="dim-row">
+      <div class="dim-label">${dims[i]}</div>
+      <div class="dim-track"><div class="dim-fill" id="rDim${i}" style="background:${dimColors[i]};width:0%"></div></div>
+      <div class="dim-pct">${p}%</div>
+    </div>`).join('');
+
+  const recItems = recs[levelClass].map(r => `
+    <div class="rec-item"><div class="rec-icon">→</div><div>${r}</div></div>`).join('');
+
+  const el = document.getElementById('result');
+  el.innerHTML = `
+    <div class="result-header">
+      <div class="score-ring">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <circle class="ring-bg" cx="65" cy="65" r="52"/>
+          <circle class="ring-fill" id="ringFill" cx="65" cy="65" r="52"
+            stroke="url(#rg)" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"/>
+          <defs>
+            <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#ff3c6f"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="score-number">
+          <div class="score-num level-${levelClass}">${pct}</div>
+          <div class="score-max">/ 100</div>
+        </div>
+      </div>
+      <div class="result-level level-${levelClass}">${level}</div>
+      <p class="result-desc">${descs[levelClass]}</p>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="result-card-label">Нийт оноо</div>
+        <div class="result-card-value level-${levelClass}">${total} / ${maxScore}</div>
+      </div>
+      <div class="result-card">
+        <div class="result-card-label">Хамгийн өндөр хэмжигдэхүүн</div>
+        <div class="result-card-value" style="color:${dimColors[dimPcts.indexOf(Math.max(...dimPcts))]}">${dims[dimPcts.indexOf(Math.max(...dimPcts))]}</div>
+      </div>
+    </div>
+
+    <div class="dimension-bars">
+      <div class="dim-title">Хэмжигдэхүүнүүдийн шинжилгээ</div>
+      ${dimBars}
+    </div>
+
+    ${aiText ? `
+    <div class="ai-analysis-card">
+      <div class="ai-label">Claude AI шинжилгээ</div>
+      <div class="ai-text">${aiText}</div>
+    </div>` : ''}
+
+    <div class="recommendations">
+      <div class="rec-title">Зөвлөмжүүд</div>
+      ${recItems}
+    </div>
+
+    <button class="restart-btn" onclick="restartQuiz()">↺ Дахин хийх</button>
+  `;
+
+  setTimeout(() => {
+    document.getElementById('ringFill').style.strokeDashoffset = offset;
+    dimPcts.forEach((p,i) => {
+      setTimeout(() => {
+        const el2 = document.getElementById('rDim'+i);
+        if (el2) el2.style.width = p + '%';
+      }, i * 100);
+    });
+  }, 200);
+}
+
+function restartQuiz() {
+  current = 0;
+  answers = new Array(20).fill(-1);
+  document.getElementById('uName').value = '';
+  document.getElementById('uAge').value  = '';
+  document.getElementById('uGender').value = '';
+  document.getElementById('uPlatform').value = '';
+  document.getElementById('startBtn').disabled = true;
+  showPage('page-intro');
+}
+
+// ════════════════════════════════════
+//  ADMIN
+// ════════════════════════════════════
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'smai2024';
+
+function adminLogin() {
+  const u = document.getElementById('adminUser').value;
+  const p = document.getElementById('adminPass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    document.getElementById('loginError').style.display = 'none';
+    renderAdmin();
+    showPage('page-admin');
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+let activeFilter = 'all';
+
+function renderAdmin() {
+  const all = loadResults();
+
+  // Stats
+  const total     = all.length;
+  const avgScore  = total ? Math.round(all.reduce((s,r) => s+r.pct, 0) / total) : 0;
+  const severe    = all.filter(r => r.levelClass === 'severe' || r.levelClass === 'high').length;
+  const platforms = [...new Set(all.map(r => r.platform).filter(Boolean))].length;
+
+  document.getElementById('adminStats').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Нийт хэрэглэгч</div></div>
+    <div class="stat-card"><div class="stat-num">${avgScore}%</div><div class="stat-label">Дундаж оноо</div></div>
+    <div class="stat-card"><div class="stat-num">${severe}</div><div class="stat-label">Өндөр эрсдэлтэй</div></div>
+    <div class="stat-card"><div class="stat-num">${platforms}</div><div class="stat-label">Платформ</div></div>
+  `;
+
+  // Filters
+  const levels = ['all','minimal','mild','moderate','high','severe'];
+  const levelNames = { all:'Бүгд', minimal:'Хэвийн', mild:'Хөнгөн', moderate:'Дунд', high:'Хүчтэй', severe:'Хүнд' };
+  document.getElementById('filterRow').innerHTML = levels.map(l => `
+    <button class="filter-btn ${activeFilter===l?'active':''}" onclick="setFilter('${l}')">${levelNames[l]}</button>
+  `).join('');
+
+  renderTable(all);
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  renderAdmin();
+}
+
+function renderTable(all) {
+  const filtered = activeFilter === 'all' ? all : all.filter(r => r.levelClass === activeFilter);
+  document.getElementById('totalCount').textContent = filtered.length + ' бичлэг';
+
+  const badgeClass = { minimal:'badge-minimal', mild:'badge-mild', moderate:'badge-moderate', high:'badge-high', severe:'badge-severe' };
+  const levelLabel = { minimal:'Хэвийн', mild:'Хөнгөн', moderate:'Дунд зэрэг', high:'Хүчтэй', severe:'Хүнд' };
+
+  if (!filtered.length) {
+    document.getElementById('adminTableBody').innerHTML =
+      `<tr><td colspan="8"><div class="empty-state">Үр дүн олдсонгүй</div></td></tr>`;
+    return;
+  }
+
+  document.getElementById('adminTableBody').innerHTML = filtered.slice().reverse().map((r, i) => {
+    const dt = new Date(r.date).toLocaleDateString('mn-MN');
+    return `
+      <tr onclick="openModal(${r.id})">
+        <td>${filtered.length - i}</td>
+        <td>${r.name}</td>
+        <td>${r.age}</td>
+        <td>${r.gender || '—'}</td>
+        <td>${r.platform || '—'}</td>
+        <td style="color:var(--accent3);font-weight:500">${r.pct}%</td>
+        <td><span class="level-badge ${badgeClass[r.levelClass]||''}">${levelLabel[r.levelClass]||r.level}</span></td>
+        <td style="color:var(--muted)">${dt}</td>
+      </tr>`;
+  }).join('');
+}
+
+function openModal(id) {
+  const all = loadResults();
+  const r   = all.find(x => x.id === id);
+  if (!r) return;
+
+  const badgeClass = { minimal:'badge-minimal', mild:'badge-mild', moderate:'badge-moderate', high:'badge-high', severe:'badge-severe' };
+
+  const dimBars = r.dimPcts.map((p,i) => `
+    <div class="dim-row">
+      <div class="dim-label" style="font-size:11px">${dims[i]}</div>
+      <div class="dim-track"><div class="dim-fill" style="background:${dimColors[i]};width:${p}%"></div></div>
+      <div class="dim-pct">${p}%</div>
+    </div>`).join('');
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-name">${r.name}</div>
+    <div class="modal-meta">${r.age} нас · ${r.gender} · ${r.platform} · ${new Date(r.date).toLocaleString('mn-MN')}</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <span style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--accent3)">${r.pct}%</span>
+      <span class="level-badge ${badgeClass[r.levelClass]||''}" style="font-size:12px;padding:5px 12px">${r.level}</span>
+    </div>
+    <div class="modal-dims">${dimBars}</div>
+    ${r.aiText ? `<div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:8px;">✦ AI Шинжилгээ</div>
+    <div class="modal-ai">${r.aiText}</div>` : ''}
+  `;
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ════════════════════════════════════
+//  CSV EXPORT
+// ════════════════════════════════════
+function exportCSV() {
+  const all = loadResults();
+  if (!all.length) { alert('Дата байхгүй байна'); return; }
+
+  const headers = ['#','Нас','Хүйс','Платформ','Оноо%','Нийт оноо','Түвшин','Ач холбогдол%','Сэтгэл өөрчлөлт%','Тэвч үл мэдрэх%','Татгалзлын шинж%','Зөрчил%','Эргэн унах%','Огноо'];
+  const rows = all.map((r,i) => [
+    i+1, r.name, r.age, r.gender, r.platform, r.pct, r.total, r.level,
+    ...r.dimPcts, new Date(r.date).toLocaleDateString('mn-MN')
+  ]);
+
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], { type:'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `SMAI_data_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+</script>
+</body>
+</html>

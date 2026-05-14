@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS Grid: Layout recreation</title>
+  <style>
+    :root{
+      --bg: #25284a; /* page background */
+      --card: #1f2744; /* panel behind grid */
+      --gap: 10px;
+      --left-right: 220px; /* wide columns on left & right */
+    }
+    html,body{
+        height:100%;
+        margin:0;font-family:Inter,Segoe UI,Arial}
+    body{background:var(--bg);display:flex;align-items:center;justify-content:center;padding:40px}
+
+    .wrap{
+      width:980px;
+      background:var(--card);
+      padding:36px;
+      border-radius:6px;
+      box-shadow:0 8px 30px rgba(0,0,0,.55);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: var(--left-right) 1fr 1fr var(--left-right);
+      grid-template-rows: 180px 120px 120px;
+      gap: var(--gap);
+      align-items:stretch;
+    }
+
+    .cell{
+        border-radius:4px;
+        box-shadow:inset 0 0 0 6px rgba(31,39,68,0.15)}
+
+    .left-tall{
+        grid-column:1 / 2;
+        grid-row:1 / 4; 
+        background:#67c26a
+    }
+    .top-wide{
+        grid-column:2 / 4; 
+        grid-row:1 / 2; 
+        background:#67c26a
+    }
+    .top-right{grid-column:4 / 5;
+        grid-row:1 / 2; 
+        background:#e64545
+    }
+    .mid-left{
+        grid-column:2 / 3; 
+        grid-row:2 / 3; 
+        background:#f4b131
+    }
+    .mid-center{grid-column:3 / 4; 
+        grid-row:2 / 3; 
+        background:#e64545
+    }
+    .right-tall{grid-column:4 / 5; 
+        grid-row:2 / 4; 
+        background:#67c26a
+    }
+    .bot-left{grid-column:2 / 3; 
+        grid-row:3 / 4; 
+        background:#e64545
+    }
+    .bot-center{grid-column:3 / 4; 
+        grid-row:3 / 4; 
+        background:#f4b131
+    }
+
+    .cell span{
+        display:block;
+        padding:12px;
+        color:#1b1b1b;
+        font-weight:700
+    }
+
+    @media (max-width:700px){
+      .wrap{width:100%;padding:18px}
+      .grid{grid-template-columns:140px 1fr 1fr 140px;grid-template-rows:140px 110px 110px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="grid">
+      <div class="cell left-tall"><span>Left tall</span></div>
+      <div class="cell top-wide"><span>Top wide</span></div>
+      <div class="cell top-right"><span>Top right</span></div>
+      <div class="cell mid-left"><span>Middle left</span></div>
+      <div class="cell mid-center"><span>Middle center</span></div>
+      <div class="cell right-tall"><span>Right tall</span></div>
+      <div class="cell bot-left"><span>Bottom left</span></div>
+      <div class="cell bot-center"><span>Bottom center</span></div>
+    </div>
+  </div>
+</body>
+</html>

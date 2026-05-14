@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#main { 
+    width: 800px;
+    height: 800px;
+    background-color: rgb(22, 196, 205);
+    font-size: 24px;
+    border: 10px solid black;
+    background-image: url('https://tse1.mm.bing.net/th/id/OIP.CdT_NgacELXhCgGLM68WFAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3');
+}
+#main .main_header {
+    width: 780px;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    border: 5px solid black;
+    text-align: center;
+    line-height: 100px;
+    font-weight: bold;
+    justify-content: center;
+}
+
+#main .main_text {
+    width: 780px;
+    height: 600px;
+    background-color: rgb(255, 255, 255);
+    border: 5px solid black;
+    margin-top: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+#main .main_text span {
+    color: hsl(hue, saturation, lightness);
+}

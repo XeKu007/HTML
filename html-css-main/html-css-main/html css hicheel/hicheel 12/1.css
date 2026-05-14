@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: black;
+}
+.main {
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    position: relative;
+    animation-name: anhni ;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: 2s;
+    animation-direction: alternate-reverse;
+}
+@keyframes anhni {
+    0% {
+        background-color: blue;
+        left: 0px;
+        top: 0px;
+        transform: rotate(0deg);
+    }
+    25% {
+        background-color: green;
+        left: 200px;
+        top: 0px;
+        transform: rotate(45deg);
+    }
+    50% {
+        background-color: red;
+        left: 0px;
+        top: 200px;
+        transform: rotate(90deg);
+    }
+    75% {
+        background-color: yellow;
+        left: 200px;
+        top: 200px;
+        transform: rotate(135deg);
+    }
+    100% {
+        background-color: blue;
+        left: 0px;
+        top: 0px;
+        transform: rotate(180deg);
+    }
+}
